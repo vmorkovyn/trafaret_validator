@@ -1,0 +1,8 @@
+/trafaret_config.egg-info
+__pycache__
+*.pyc
+*.pyo
+/tmp
+/dist
+/build
+.idea

@@ -1,2 +1,0 @@
-# trafaret_validator
-trafaret_validator
