@@ -1,7 +1,7 @@
 import trafaret as t
 
 
-class TrafaretValidator:
+class TrafaretValidator(object):
     _validators = {}
     _errors = {}
 
