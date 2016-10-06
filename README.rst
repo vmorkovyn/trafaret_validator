@@ -3,9 +3,14 @@ TrafaretValidator
 ====================
 
 
+Install::
+
+    pip install trafaret_validator
+
+
 :Status: Beta
 
-This is a wrapper that validate request using trafaret_.
+This is a wrapper that validate params using Trafaret ( http://trafaret.readthedocs.org/en/latest/ ).
 
 Usage:
 
