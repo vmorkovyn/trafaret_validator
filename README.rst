@@ -11,6 +11,9 @@ Usage:
 
 .. code-block:: python
 
+    import trafaret as t
+    from trafaret_validator import TrafaretValidator
+
     class RequestValidator(TrafaretValidator):
         ids = t.List(t.Int)
         payload = t.Dict(x=t.String)
