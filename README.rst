@@ -27,6 +27,7 @@ Usage:
 
 
     class ParamsValidator(TrafaretValidator):
+        name = t.String
         ids = t.List(t.Int)
         payload = t.Dict(foo=t.Call(foo_validator))
 
