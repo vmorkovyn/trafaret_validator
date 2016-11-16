@@ -1,7 +1,9 @@
+import inspect
+
 import trafaret as t
 
 
-class TrafaretValidator(object):
+class TrafaretValidator:
     _validators = {}
     _errors = {}
 
@@ -9,9 +11,10 @@ class TrafaretValidator(object):
         instance = object.__new__(cls)
         validators = {}
         for attr_name in instance.__class__.__dict__:
-            field = getattr(instance, attr_name)
-            if isinstance(field, t.Trafaret):
-                validators[attr_name] = field
+            value = getattr(instance, attr_name)
+            trafaret_instance = cls._prepare_trafaret_instance(value)
+            if trafaret_instance:
+                validators[attr_name] = trafaret_instance
 
         setattr(instance, '_validators', validators)
         return instance
@@ -20,10 +23,21 @@ class TrafaretValidator(object):
         self._params = self._prepare_params(kwargs)
 
     def __setattr__(self, name, value):
-        if isinstance(value, t.Trafaret):
-            self._validators[name] = value
+        trafaret_instance = TrafaretValidator._prepare_trafaret_instance(value)
+        if trafaret_instance:
+            self._validators[name] = trafaret_instance
 
         object.__setattr__(self, name, value)
+
+    @staticmethod
+    def _prepare_trafaret_instance(value):
+        if isinstance(value, t.Trafaret) or inspect.isroutine(value):
+            return value
+        elif issubclass(value.__class__, t.Trafaret.__class__):
+            return value()
+        elif isinstance(value, type):
+            return t.Type(value)
+        return
 
     def _prepare_params(self, params):
         prepared_params = {}
