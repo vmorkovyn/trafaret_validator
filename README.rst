@@ -22,15 +22,17 @@ Usage:
 
     def foo_validator(value):
         if value != "foo":
-            return t.DataError("I want only foo!")
+            return t.DataError("Expected foo!")
         return 'foo'
 
 
-    class ParamsValidator(TrafaretValidator):
-        name = t.String
+    class RequestValidator(TrafaretValidator):
         ids = t.List(t.Int)
         payload = t.Dict(foo=t.Call(foo_validator))
 
-    validator = ParamsValidator(ids=ids, payload=payload)
+    validator = RequestValidator(ids=ids, payload=payload)
     if not validator.validate():
         return validator.errors
+
+    # returns checked dict of params {'ids': [...], 'payload': {'foo': 'foo'}}
+    data = validator.data

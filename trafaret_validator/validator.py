@@ -6,6 +6,7 @@ import trafaret as t
 class TrafaretValidator:
     _validators = {}
     _errors = {}
+    _data = {}
 
     def __new__(cls, *args, **kwargs):
         instance = object.__new__(cls)
@@ -61,9 +62,13 @@ class TrafaretValidator:
     def params(self):
         return self._params.copy()
 
+    @property
+    def data(self):
+        return self._data.copy()
+
     def validate(self):
         try:
-            self.trafaret.check(self.params)
+            self._data = self.trafaret.check(self.params)
             return True
         except t.DataError as error:
             self._errors = error.as_dict()
