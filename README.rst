@@ -36,3 +36,5 @@ Usage:
 
     # returns checked dict of params {'ids': [...], 'payload': {'foo': 'foo'}}
     data = validator.data
+    ids = validator.ids
+    payload = validator.payload
