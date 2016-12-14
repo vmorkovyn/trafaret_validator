@@ -13,24 +13,20 @@ class TrafaretValidatorMeta(type):
     def __new__(mcs, clsname, bases, dct):
         _dct = {}
         _validators = {}
-        _validators_names = []
         for name, value in dct.items():
             trafaret_instance = _prepare_trafaret_instance(value)
             if trafaret_instance:
                 _validators[name] = trafaret_instance
-                _validators_names.append(name)
             else:
                 _dct[name] = value
 
         cls = super().__new__(mcs, clsname, bases, _dct)
-        cls._validators = _validators
-        cls._validators_names = _validators_names
+        setattr(cls, '_validators', _validators)
         return cls
 
 
 class TrafaretValidator(metaclass=TrafaretValidatorMeta):
     _validators = {}
-    _validators_names = []
     _errors = {}
     _data = {}
 
@@ -44,7 +40,7 @@ class TrafaretValidator(metaclass=TrafaretValidatorMeta):
             raise AttributeError(name)
 
     def __setattr__(self, name, value):
-        if name in self._validators_names:
+        if name in self._validators.keys():
             raise AttributeError('Cannot reassign validator.')
 
         trafaret_instance = _prepare_trafaret_instance(value)
@@ -55,7 +51,7 @@ class TrafaretValidator(metaclass=TrafaretValidatorMeta):
 
     def _prepare_params(self, params):
         prepared_params = {}
-        for attr_name in self._validators_names:
+        for attr_name in self._validators.keys():
             prepared_params[attr_name] = params.get(attr_name)
         return prepared_params
 
