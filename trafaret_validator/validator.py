@@ -27,34 +27,10 @@ class TrafaretValidatorMeta(type):
         cls._validators_names = _validators_names
         return cls
 
-    def __bool__(self):
-        return True
-
-    def __delattr__(cls, attr):
-        if attr in cls._validators:
-            raise AttributeError(
-                    "%s: cannot delete TrafaretValidator member." % cls.__name__)
-        super().__delattr__(attr)
-
-    def __dir__(self):
-        return (['__class__', '__doc__', '__members__', '__module__'] +
-                self._validators_names)
-
-    def __getattr__(cls, name):
-        cls.__class__.__getattr__(cls, name)
-
-    def __getitem__(cls, name):
-        return cls._validators[name]
-
-    def __len__(cls):
-        return len(cls._validators_names)
-
-    def __repr__(cls):
-        return "<trafaret_validator %r>" % cls.__name__
-
 
 class TrafaretValidator(metaclass=TrafaretValidatorMeta):
     _validators = {}
+    _validators_names = []
     _errors = {}
     _data = {}
 
@@ -74,8 +50,8 @@ class TrafaretValidator(metaclass=TrafaretValidatorMeta):
         trafaret_instance = _prepare_trafaret_instance(value)
         if trafaret_instance:
             self._validators[name] = trafaret_instance
-
-        object.__setattr__(self, name, value)
+        else:
+            object.__setattr__(self, name, value)
 
     def _prepare_params(self, params):
         prepared_params = {}

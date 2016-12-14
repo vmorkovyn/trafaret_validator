@@ -23,7 +23,7 @@ def read(fname):
 
 
 setup(name='trafaret_validator',
-      version='0.3.2',
+      version='0.3.3',
       description='trafaret validator wrapper',
       long_description=read('README.rst'),
       classifiers=classifiers,
