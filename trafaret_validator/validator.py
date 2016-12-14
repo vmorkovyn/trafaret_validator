@@ -3,32 +3,45 @@ import inspect
 import trafaret as t
 
 
-class TrafaretValidator(object):
-    _validators = {}
-    _errors = {}
-    _data = {}
-
-    def __new__(cls, *args, **kwargs):
-        instance = object.__new__(cls)
-        validators = {}
-        for attr_name in instance.__class__.__dict__:
-            value = getattr(instance, attr_name)
-            trafaret_instance = cls._prepare_trafaret_instance(value)
+class TrafaretValidatiorMeta(type):
+    def __new__(mcs, clsname, bases, dct):
+        cls = super(TrafaretValidatiorMeta, mcs).__new__(mcs, clsname, bases, dct)
+        cls._validators = {}
+        cls._validators_names = []
+        for name, value in dct.items():
+            trafaret_instance = mcs._prepare_trafaret_instance(value)
             if trafaret_instance:
-                validators[attr_name] = trafaret_instance
+                cls._validators[name] = trafaret_instance
+                cls._validators_names.append(name)
+        return cls
 
-        setattr(instance, '_validators', validators)
-        return instance
+    def __bool__(self):
+        return True
 
-    def __init__(self, **kwargs):
-        self._params = self._prepare_params(kwargs)
+    def __delattr__(cls, attr):
+        if attr in cls._validators:
+            raise AttributeError(
+                    "%s: cannot delete TrafaretValidator member." % cls.__name__)
+        super().__delattr__(attr)
 
-    def __setattr__(self, name, value):
-        trafaret_instance = TrafaretValidator._prepare_trafaret_instance(value)
-        if trafaret_instance:
-            self._validators[name] = trafaret_instance
+    def __dir__(self):
+        return (['__class__', '__doc__', '__members__', '__module__'] +
+                self._validators_names)
 
-        object.__setattr__(self, name, value)
+    def __getattr__(cls, name):
+        cls.__class__.__getattr__(cls, name)
+
+    def __getitem__(cls, name):
+        return cls._validators[name]
+
+    def __iter__(cls):
+        return (cls._validators[name] for name in cls._validators_names)
+
+    def __len__(cls):
+        return len(cls._validators_names)
+
+    def __repr__(cls):
+        return "<trafaret_validator %r>" % cls.__name__
 
     @staticmethod
     def _prepare_trafaret_instance(value):
@@ -39,6 +52,15 @@ class TrafaretValidator(object):
         elif isinstance(value, type):
             return t.Type(value)
         return
+
+
+class TrafaretValidator(metaclass=TrafaretValidatiorMeta):
+    _errors = {}
+    _data = {}
+    _params = {}
+
+    def __init__(self, **kwargs):
+        self._params = self._prepare_params(kwargs)
 
     def _prepare_params(self, params):
         prepared_params = {}
