@@ -34,7 +34,6 @@ Usage:
     if not validator.validate():
         return validator.errors
 
-    # returns checked dict of params {'ids': [...], 'payload': {'foo': 'foo'}}
-    data = validator.data
+    data = validator.data # returns checked dict of params {'ids': [...], 'payload': {'foo': 'foo'}}
     ids = validator.ids
     payload = validator.payload
