@@ -21,8 +21,8 @@ Usage:
 
 
     def foo_validator(value):
-        if value != "foo":
-            return t.DataError("Expected foo!")
+        if value != 'foo':
+            return t.DataError('Expected foo!')
         return 'foo'
 
 
