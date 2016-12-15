@@ -22,11 +22,13 @@ class TrafaretValidatorMeta(type):
 
         cls = super().__new__(mcs, clsname, bases, _dct)
         setattr(cls, '_validators', _validators)
+        setattr(cls, '_trafaret', t.Dict(**_validators))
         return cls
 
 
 class TrafaretValidator(metaclass=TrafaretValidatorMeta):
     _validators = {}
+    _trafaret = {}
     _errors = {}
     _data = {}
 
@@ -46,6 +48,7 @@ class TrafaretValidator(metaclass=TrafaretValidatorMeta):
         trafaret_instance = _prepare_trafaret_instance(value)
         if trafaret_instance:
             self._validators[name] = trafaret_instance
+            self._trafaret = t.Dict(**self._validators)
         else:
             object.__setattr__(self, name, value)
 
@@ -61,7 +64,7 @@ class TrafaretValidator(metaclass=TrafaretValidatorMeta):
 
     @property
     def trafaret(self):
-        return t.Dict(**self._validators)
+        return self._trafaret
 
     @property
     def errors(self):
@@ -77,7 +80,7 @@ class TrafaretValidator(metaclass=TrafaretValidatorMeta):
 
     def validate(self):
         try:
-            self._data = self.trafaret.check(self.params)
+            self._data = self._trafaret.check(self.params)
             return True
         except t.DataError as error:
             self._errors = error.as_dict()
