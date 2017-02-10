@@ -12,17 +12,20 @@ def _prepare_trafaret_instance(value):
 class TrafaretValidatorMeta(type):
     def __new__(mcs, clsname, bases, dct):
         _dct = {}
+        _dct_validators = {}
         _validators = {}
         for name, value in dct.items():
             trafaret_instance = _prepare_trafaret_instance(value)
             if trafaret_instance:
-                _validators[name] = trafaret_instance
+                _dct_validators[name] = trafaret_instance
             else:
                 _dct[name] = value
 
-        cls = super().__new__(mcs, clsname, bases, _dct)
+        cls = super(TrafaretValidatorMeta, mcs).__new__(mcs, clsname, bases, _dct)
+        _validators.update(getattr(cls, '_validators'))
+        _validators.update(_dct_validators)
         setattr(cls, '_validators', _validators)
-        setattr(cls, '_trafaret', t.Dict(**_validators))
+        setattr(cls, '_trafaret', t.Dict(_validators))
         return cls
 
 
@@ -48,7 +51,7 @@ class TrafaretValidator(metaclass=TrafaretValidatorMeta):
         trafaret_instance = _prepare_trafaret_instance(value)
         if trafaret_instance:
             self._validators[name] = trafaret_instance
-            self._trafaret = t.Dict(**self._validators)
+            self._trafaret = t.Dict(self._validators)
         else:
             object.__setattr__(self, name, value)
 
