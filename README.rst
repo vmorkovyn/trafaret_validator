@@ -1,3 +1,7 @@
+.. image:: https://img.shields.io/pypi/v/trafaret_validator.svg
+    :target: https://pypi.python.org/pypi/trafaret_validator
+
+
 ====================
 TrafaretValidator
 ====================
