@@ -24,7 +24,7 @@ def read(fname):
 
 setup(name='trafaret_validator',
       version='0.3.6',
-      description='trafaret validator wrapper',
+      description='A validation library for python using trafaret',
       long_description=read('README.rst'),
       classifiers=classifiers,
       platforms=["any"],
