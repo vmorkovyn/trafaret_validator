@@ -23,8 +23,13 @@ def read(fname):
     return open(os.path.join(os.path.dirname(__file__), fname)).read()
 
 
+version = [line for line in read('trafaret_validator/__init__.py').split('\n')
+           if '__version__' in line][0]
+exec(version)
+
+
 setup(name='trafaret_validator',
-      version='0.3.7',
+      version=__version__,
       description='A validation library for python using trafaret',
       long_description=read('README.rst'),
       classifiers=classifiers,
@@ -34,4 +39,4 @@ setup(name='trafaret_validator',
       url='https://github.com/Lex0ne/trafaret_validator',
       packages=["trafaret_validator"],
       install_requires=['trafaret'],
-      include_package_data=True)
+      include_package_data=True,)
