@@ -1,5 +1,7 @@
 import trafaret as t
 
+from .utils import with_metaclass
+
 
 def _prepare_trafaret_instance(value):
     if isinstance(value, t.Trafaret):
@@ -29,7 +31,7 @@ class TrafaretValidatorMeta(type):
         return cls
 
 
-class TrafaretValidator(metaclass=TrafaretValidatorMeta):
+class TrafaretValidator(with_metaclass(TrafaretValidatorMeta)):
     _validators = {}
     _trafaret = {}
     _errors = {}
