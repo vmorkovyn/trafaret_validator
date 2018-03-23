@@ -39,4 +39,6 @@ setup(name='trafaret_validator',
       url='https://github.com/Lex0ne/trafaret_validator',
       packages=["trafaret_validator"],
       install_requires=['trafaret'],
-      include_package_data=True,)
+      test_suite='tests',
+      include_package_data=True,
+)
