@@ -90,3 +90,13 @@ class TrafaretValidator(with_metaclass(TrafaretValidatorMeta)):
         except t.DataError as error:
             self._errors = error.as_dict()
             return False
+
+    def __repr__(self):
+        return '<TrafaretValidator ' \
+               'is-data-valid={validation_result} ' \
+               'data={data} ' \
+               'errors={errors}>'.format(
+            validation_result=self.validate(),
+            data=self._data,
+            errors=self._errors,
+        )
