@@ -31,7 +31,7 @@ class TrafaretValidatorMeta(type):
         return cls
 
     def __repr__(cls):
-        return '<{0.__name__} trafaret={0.trafaret}>'.format(cls)
+        return '<{0.__name__} trafaret={0._trafaret}>'.format(cls)
 
 
 class TrafaretValidator(with_metaclass(TrafaretValidatorMeta)):
