@@ -41,6 +41,11 @@ Usage:
     if not validator.validate():
         return validator.errors
 
+    request_params = {'ids' ids, 'payload': payload}
+    validator = RequestValidator()
+    if not validator.validate_params(request_params):
+        return validator.errors
+
     data = validator.data # returns checked dict of params {'ids': [...], 'payload': {'foo': 'foo'}}
     ids = validator.ids
     payload = validator.payload
