@@ -6,11 +6,10 @@ python:
   - 3.5
   - 3.6
 install:
-  - pip install -U pip
   - python setup.py develop
 before_script:
   - pip install -r requirements-dev.txt
 script:
-  - py.test tests/ coveralls -v --cov coveralls --cov-report term-missin
+  - py.test tests/ coveralls -v --cov coveralls --cov-report term-missing
 after_success:
   - coveralls
