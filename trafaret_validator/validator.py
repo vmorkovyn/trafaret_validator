@@ -30,6 +30,9 @@ class TrafaretValidatorMeta(type):
         setattr(cls, '_trafaret', t.Dict(_validators))
         return cls
 
+    def __repr__(cls):
+        return '<{0.__name__} trafaret={0._trafaret}>'.format(cls)
+
 
 class TrafaretValidator(with_metaclass(TrafaretValidatorMeta)):
     _validators = {}
