@@ -1,14 +1,15 @@
+====================
+TrafaretValidator
+====================
+
 .. image:: https://travis-ci.org/Lex0ne/trafaret_validator.svg?branch=master
     :target: https://travis-ci.org/Lex0ne/trafaret_validator
+.. image:: https://coveralls.io/repos/github/Lex0ne/trafaret_validator/badge.svg?branch=master
+    :target: https://coveralls.io/github/Lex0ne/trafaret_validator?branch=master
 .. image:: https://img.shields.io/pypi/v/trafaret_validator.svg
     :target: https://pypi.python.org/pypi/trafaret_validator
 .. image:: https://img.shields.io/pypi/pyversions/trafaret_validator.svg
     :target: https://pypi.python.org/pypi/trafaret_validator
-
-
-====================
-TrafaretValidator
-====================
 
 
 Install::
