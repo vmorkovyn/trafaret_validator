@@ -65,7 +65,8 @@ class TestTrafaretValidator(TestCase):
                       '"d"-field must be specified in params, '
                       'but it did not')
         self.assertNotIn('test_trafaret', validator.params,
-                         '"test_trafaret"-field must be not specified in params, '
+                         '"test_trafaret"-field must be not specified '
+                         'in params, '
                          'but it did')
         validator.test = 1
         validator.test_trafaret = t.Or(t.String(), t.Null)
