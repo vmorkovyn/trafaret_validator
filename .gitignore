@@ -1,16 +1,41 @@
+*.py[cod]
+venv*
+
+# C extensions
+*.so
+
+# Packages
 *.egg
 *.egg-info
-*.py[co]
+dist
+build
+eggs
+parts
+bin
+var
+sdist
+develop-eggs
+.installed.cfg
+lib
+lib64
 
+# Installer logs
+pip-log.txt
+
+# Unit test / coverage reports
 .coverage
-.install
-.python-version
+.tox
+nosetests.xml
+.cache
 
-.*cache/
-__pycache__/
-build/
-dist/
-docs/_build/
-env/
-.tox/
+# Translations
+*.mo
+
+# Mr Developer
+.mr.developer.cfg
+.project
+.pydevproject
 .idea
+
+# Sample
+python-coveralls-example
