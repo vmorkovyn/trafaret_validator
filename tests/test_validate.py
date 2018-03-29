@@ -12,32 +12,54 @@ class ValidatorForTest(TrafaretValidator):
 
 class TestTrafaretValidator(TestCase):
 
-    def test_valid(self):
+    def test_validate(self):
         data = {'t_value': 1}
-        vld_good = ValidatorForTest(**data)
+        validator = ValidatorForTest(**data)
 
-        self.assertTrue(vld_good.validate(),
+        self.assertTrue(validator.validate(),
                         'Validation result is False, but should be True')
-        self.assertEqual(data, vld_good.data,
+        self.assertEqual(data, validator.data,
                          'Data does not equals passed data')
-        self.assertIsNot(data, vld_good.data,
+        self.assertIsNot(data, validator.data,
                          'Data is passed arguments, not copy')
-        self.assertEqual({}, vld_good.errors,
+        self.assertEqual({}, validator.errors,
                          'Errors dict is not empty')
 
-    def test_invalid(self):
+        validator = ValidatorForTest()
         data = {'t_value': 'asdasdasd'}
-        vld_good = ValidatorForTest(**data)
+        validator = ValidatorForTest(**data)
 
-        self.assertFalse(vld_good.validate(),
+        self.assertFalse(validator.validate(),
                          'Validation result is True, but should be False')
-        self.assertEqual({}, vld_good.data,
+        self.assertEqual({}, validator.data,
                          'Data dict is not empty but should be')
-        self.assertIn('t_value', vld_good.errors,
+        self.assertIn('t_value', validator.errors,
                       '"t_value"-field must be specified in errors, '
                       'but it did not')
 
-    def test_reassign(self):
+    def test_validate_params(self):
+        data = {'t_value': 1}
+        validator = ValidatorForTest()
+        self.assertTrue(validator.validate_params(data),
+                        'Validation result is False, but should be True')
+        self.assertEqual(data, validator.data,
+                         'Data does not equals passed data')
+        self.assertIsNot(data, validator.data,
+                         'Data is passed arguments, not copy')
+        self.assertEqual({}, validator.errors,
+                         'Errors dict is not empty')
+
+        validator = ValidatorForTest()
+        data = {'t_value': 'asdasdasd'}
+        self.assertFalse(validator.validate_params(data),
+                         'Validation result is True, but should be False')
+        self.assertEqual({}, validator.data,
+                         'Data dict is not empty but should be')
+        self.assertIn('t_value', validator.errors,
+                      '"t_value"-field must be specified in errors, '
+                      'but it did not')
+
+    def test_reassign_with_set_params(self):
         data = {'t_value': 1, 'test_trafaret': 'jkk'}
         validator = ValidatorForTest()
         validator.test = 1
@@ -63,7 +85,30 @@ class TestTrafaretValidator(TestCase):
                       '"test_trafaret"-field must be specified in errors, '
                       'but it did not')
 
-    def test_init(self):
+    def test_reassign_with_validate_params(self):
+        data = {'t_value': 1, 'test_trafaret': 'jkk'}
+        validator = ValidatorForTest()
+        validator.test = 1
+        validator.test_trafaret = t.Or(t.String(), t.Null)
+        self.assertTrue(validator.validate_params(data),
+                        'Validation result is False, but should be True')
+        self.assertTrue(validator.test,
+                        'Value is missing, but should be')
+        self.assertTrue(validator.test_trafaret,
+                        'Value is missing, but should be')
+        self.assertEqual(1, validator.test,
+                         'Value is not equal, but should be')
+        self.assertNotIn('test', validator.data,
+                         '"test"-field must be specified in errors, '
+                         'but it did not')
+        self.assertNotIn('value', validator.data,
+                         '"test"-field must be specified in errors, '
+                         'but it did not')
+        self.assertIn('test_trafaret', validator.data,
+                      '"test_trafaret"-field must be specified in errors, '
+                      'but it did not')
+
+    def test_init_validator_instance(self):
         data = {'t_value': 1, 'test_trafaret': 'jkk'}
         validator = ValidatorForTest()
         self.assertIn('t_value', validator.params,
