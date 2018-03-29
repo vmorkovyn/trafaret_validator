@@ -25,7 +25,6 @@ class TestTrafaretValidator(TestCase):
         self.assertEqual({}, validator.errors,
                          'Errors dict is not empty')
 
-        validator = ValidatorForTest()
         data = {'t_value': 'asdasdasd'}
         validator = ValidatorForTest(**data)
 
@@ -50,7 +49,7 @@ class TestTrafaretValidator(TestCase):
                          'Errors dict is not empty')
 
         validator = ValidatorForTest()
-        data = {'t_value': 'asdasdasd'}
+        data = {'t_value': 'asdasdasd', 'not_validate': True}
         self.assertFalse(validator.validate_params(data),
                          'Validation result is True, but should be False')
         self.assertEqual({}, validator.data,
