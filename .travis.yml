@@ -1,0 +1,16 @@
+language: python
+python:
+  - 2.7
+  - 3.3
+  - 3.4
+  - 3.5
+  - 3.6
+install:
+  - pip install -U pip
+  - python setup.py develop
+before_script:
+  - pip install -r requirements-dev.txt
+script:
+  - py.test tests/ coveralls -v --cov coveralls --cov-report term-missin
+after_success:
+  - coveralls

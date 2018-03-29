@@ -55,10 +55,12 @@ class TrafaretValidator(with_metaclass(TrafaretValidatorMeta)):
 
         trafaret_instance = _prepare_trafaret_instance(value)
         if trafaret_instance:
-            self._validators[name] = trafaret_instance
-            self._trafaret = t.Dict(self._validators)
+            _validators = self._validators.copy()
+            _validators[name] = trafaret_instance
+            self.__dict__['_validators'] = _validators
+            self.__dict__['_trafaret'] = t.Dict(self._validators)
         else:
-            object.__setattr__(self, name, value)
+            self.__dict__[name] = value
 
     def _prepare_params(self, params):
         prepared_params = {}
@@ -93,6 +95,9 @@ class TrafaretValidator(with_metaclass(TrafaretValidatorMeta)):
         except t.DataError as error:
             self._errors = error.as_dict()
             return False
+
+    def set_params(self, params):
+        self._params = self._prepare_params(params.copy())
 
     def __repr__(self):
         return '<TrafaretValidator ' \
