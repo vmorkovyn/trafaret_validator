@@ -96,6 +96,14 @@ class TrafaretValidator(with_metaclass(TrafaretValidatorMeta)):
             self._errors = error.as_dict()
             return False
 
+    def validate_params(self, params):
+        try:
+            self._data = self._trafaret.check(params)
+            return True
+        except t.DataError as error:
+            self._errors = error.as_dict()
+            return False
+
     def set_params(self, params):
         self._params = self._prepare_params(params.copy())
 
