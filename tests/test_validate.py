@@ -6,13 +6,14 @@ from trafaret_validator import TrafaretValidator
 
 
 class ValidatorForTest(TrafaretValidator):
-    d = t.Int()
+    t_value = t.Int()
+    value = 1
 
 
 class TestTrafaretValidator(TestCase):
 
     def test_valid(self):
-        data = {'d': 1}
+        data = {'t_value': 1}
         vld_good = ValidatorForTest(**data)
 
         self.assertTrue(vld_good.validate(),
@@ -25,18 +26,19 @@ class TestTrafaretValidator(TestCase):
                          'Errors dict is not empty')
 
     def test_invalid(self):
-        data = {'d': 'asdasdasd'}
+        data = {'t_value': 'asdasdasd'}
         vld_good = ValidatorForTest(**data)
 
         self.assertFalse(vld_good.validate(),
                          'Validation result is True, but should be False')
         self.assertEqual({}, vld_good.data,
                          'Data dict is not empty but should be')
-        self.assertIn('d', vld_good.errors,
-                      '"d"-field must be specified in errors, but it did not')
+        self.assertIn('t_value', vld_good.errors,
+                      '"t_value"-field must be specified in errors, '
+                      'but it did not')
 
     def test_reassign(self):
-        data = {'d': 1, 'test_trafaret': 'jkk'}
+        data = {'t_value': 1, 'test_trafaret': 'jkk'}
         validator = ValidatorForTest()
         validator.test = 1
         validator.test_trafaret = t.Or(t.String(), t.Null)
@@ -54,15 +56,18 @@ class TestTrafaretValidator(TestCase):
         self.assertNotIn('test', validator.data,
                          '"test"-field must be specified in errors, '
                          'but it did not')
+        self.assertNotIn('value', validator.data,
+                         '"test"-field must be specified in errors, '
+                         'but it did not')
         self.assertIn('test_trafaret', validator.data,
                       '"test_trafaret"-field must be specified in errors, '
                       'but it did not')
 
     def test_init(self):
-        data = {'d': 1, 'test_trafaret': 'jkk'}
+        data = {'t_value': 1, 'test_trafaret': 'jkk'}
         validator = ValidatorForTest()
-        self.assertIn('d', validator.params,
-                      '"d"-field must be specified in params, '
+        self.assertIn('t_value', validator.params,
+                      '"t_value"-field must be specified in params, '
                       'but it did not')
         self.assertNotIn('test_trafaret', validator.params,
                          '"test_trafaret"-field must be not specified '
@@ -71,7 +76,7 @@ class TestTrafaretValidator(TestCase):
         validator.test = 1
         validator.test_trafaret = t.Or(t.String(), t.Null)
         validator.set_params(data)
-        self.assertIn('d', validator.params,
+        self.assertIn('t_value', validator.params,
                       '"test_trafaret"-field must be specified in errors, '
                       'but it did not')
         self.assertIn('test_trafaret', validator.params,

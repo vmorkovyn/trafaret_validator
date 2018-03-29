@@ -1,5 +1,5 @@
 
-def with_metaclass(meta, *bases):  # pragma no-cover
+def with_metaclass(meta, *bases):  # pragma: no cover
     """Create a base class with a metaclass.
 
     Code source: https://github.com/benjaminp/six/blob/master/six.py#L819

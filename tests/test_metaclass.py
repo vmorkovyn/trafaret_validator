@@ -6,7 +6,8 @@ from trafaret_validator import TrafaretValidator
 
 
 class ValidatorForTest(TrafaretValidator):
-    d = t.Int()
+    t_value = t.Int()
+    value = 5
 
 
 class TestMetaclass(TestCase):
@@ -14,8 +15,10 @@ class TestMetaclass(TestCase):
     def test_metaclass(self):
         self.assertIsInstance(ValidatorForTest._validators, dict,
                               'Value should be instance of dict')
-        self.assertIn('d', ValidatorForTest._validators,
+        self.assertIn('t_value', ValidatorForTest._validators,
                       'Value should be in _validators')
+        self.assertNotIn('value', ValidatorForTest._validators,
+                         'Value should not be in _validators')
         self.assertIsInstance(ValidatorForTest._trafaret, t.Trafaret,
                               'Value should be instance of Trafaret')
         self.assertFalse(ValidatorForTest._data,
