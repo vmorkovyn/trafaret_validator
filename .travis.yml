@@ -10,6 +10,6 @@ install:
 before_script:
   - pip install -r requirements-dev.txt
 script:
-  - py.test tests/ -v --cov
+  - py.test -v --cov=./trafaret_validator
 after_success:
   - coveralls
