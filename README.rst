@@ -1,3 +1,5 @@
+.. image:: https://travis-ci.org/Lex0ne/trafaret_validator.svg?branch=master
+    :target: https://travis-ci.org/Lex0ne/trafaret_validator
 .. image:: https://img.shields.io/pypi/v/trafaret_validator.svg
     :target: https://pypi.python.org/pypi/trafaret_validator
 .. image:: https://img.shields.io/pypi/pyversions/trafaret_validator.svg

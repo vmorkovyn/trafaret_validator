@@ -10,6 +10,6 @@ install:
 before_script:
   - pip install -r requirements-dev.txt
 script:
-  - py.test tests/ coveralls -v --cov coveralls --cov-report term-missing
+  - py.test tests/ -v --cov
 after_success:
   - coveralls
